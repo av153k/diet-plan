@@ -188,6 +188,39 @@
   .home-exercise-card .ex-muscle { background:var(--purple-dim); color:var(--purple); border-color:rgba(192,132,252,.2); }
   .home-exercise-card.done .ex-muscle { background:var(--green-dim); color:var(--green); border-color:rgba(57,217,138,.2); }
 
+  /* Technique Guide */
+  .guide-btn {
+    display:flex; align-items:center; gap:6px;
+    background:none; border:1px solid rgba(192,132,252,.25);
+    border-radius:8px; padding:6px 12px;
+    color:var(--purple); font-family:'DM Sans',sans-serif;
+    font-size:12px; font-weight:600; cursor:pointer;
+    transition:all .2s; margin-top:10px; width:100%;
+  }
+  .guide-btn:hover { background:var(--purple-dim); border-color:var(--purple); }
+  .guide-btn .g-arrow { margin-left:auto; font-size:10px; transition:transform .3s; }
+  .guide-btn.open .g-arrow { transform:rotate(180deg); }
+  .guide-body {
+    display:none; margin-top:10px;
+    background:rgba(45,27,78,.5); border:1px solid rgba(192,132,252,.2);
+    border-radius:12px; padding:14px 16px;
+  }
+  .guide-body.open { display:block; animation:fadeUp .3s ease; }
+  .guide-section { font-size:10px; text-transform:uppercase; letter-spacing:1.2px;
+    color:var(--purple); font-weight:700; margin-bottom:6px; margin-top:10px; }
+  .guide-section:first-child { margin-top:0; }
+  .guide-steps { display:flex; flex-direction:column; gap:5px; }
+  .guide-step { display:flex; gap:8px; font-size:12px; color:var(--text-muted); line-height:1.5; }
+  .guide-step-num { width:18px; height:18px; border-radius:50%; background:rgba(192,132,252,.2);
+    color:var(--purple); font-size:10px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .guide-tips { display:flex; flex-direction:column; gap:4px; }
+  .guide-tip { font-size:12px; color:var(--text-muted); line-height:1.4; padding-left:16px; position:relative; }
+  .guide-tip::before { content:'⚡'; position:absolute; left:0; font-size:11px; }
+  .guide-avoid { display:flex; flex-direction:column; gap:4px; }
+  .guide-avoid-item { font-size:12px; color:#ff8080; line-height:1.4; padding-left:16px; position:relative; }
+  .guide-avoid-item::before { content:'✗'; position:absolute; left:0; font-size:11px; color:#ff6b6b; }
+
   /* Rest day */
   .rest-day-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:48px; text-align:center; }
   .rest-day-card .rest-icon { font-size:48px; margin-bottom:16px; }
@@ -745,7 +778,7 @@
       <div class="info-icon">🏠</div>
       <div>
         <h3>No Equipment Needed</h3>
-        <p>This 4-day home plan uses only your bodyweight. All exercises use furniture (chair, floor, wall) available in any home. Just as effective as gym when done with intensity and consistency. Click exercises to check them off.</p>
+        <p>4-day bodyweight plan. Tap <strong style="color:var(--purple)">📋 Technique Guide</strong> under any exercise to see correct form, cues and common mistakes. Click exercises to check them off.</p>
       </div>
     </div>
 
@@ -759,58 +792,510 @@
       <button class="day-btn rest" onclick="showDay('home','sun',this)">Sun 😴</button>
     </div>
 
-    <!-- HOME MON: Push (Chest, Triceps, Shoulders) -->
+    <!-- ── HOME MON: Push ── -->
     <div class="workout-plan active" id="home-mon">
       <div style="margin-bottom:20px"><div class="workout-title" style="font-size:22px;color:var(--purple)">Monday — Push (Chest, Triceps, Shoulders)</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Bodyweight push · Est. 40–50 mins</div></div>
+
       <div class="phase-label">Warm Up — 5 mins</div>
       <div class="exercise-grid">
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">W</div><div class="ex-info"><div class="ex-name">Jumping Jacks</div><div class="ex-detail">2 × 30 reps</div></div><div class="ex-muscle">Full Body</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">W</div><div class="ex-info"><div class="ex-name">Arm Circles + Wrist Rotations</div><div class="ex-detail">30 sec each direction</div></div><div class="ex-muscle">Shoulders</div><div class="check-icon">✓</div></div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">W</div><div class="ex-info"><div class="ex-name">Jumping Jacks</div><div class="ex-detail">2 × 30 reps</div></div><div class="ex-muscle">Full Body</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to do it</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Stand with feet together, arms at sides.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Jump feet out wide while raising both arms overhead simultaneously.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Jump back to start. Keep a steady rhythm — don't rush.</div>
+            </div>
+            <div class="guide-section">Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Land softly on the balls of your feet, not your heels</div>
+              <div class="guide-tip">Keep your core slightly braced throughout</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">W</div><div class="ex-info"><div class="ex-name">Arm Circles + Wrist Rotations</div><div class="ex-detail">30 sec each direction</div></div><div class="ex-muscle">Shoulders</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to do it</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Extend both arms to the sides at shoulder height.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Make small circles forward for 15 sec, then large circles for 15 sec.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Reverse direction. Then rotate wrists forward and backward 10× each.</div>
+            </div>
+            <div class="guide-section">Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Keep shoulders down — don't shrug them up toward ears</div>
+              <div class="guide-tip">This warms up the rotator cuff and prevents shoulder injury during push-ups</div>
+            </div>
+          </div>
+        </div>
+
       </div>
+
       <div class="phase-label">Main Workout</div>
       <div class="exercise-grid">
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Standard Push-Ups</div><div class="ex-detail">4 × 15–20 reps · 60s rest</div></div><div class="ex-muscle">Chest</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Wide-Grip Push-Ups</div><div class="ex-detail">3 × 12–15 reps · 60s rest</div></div><div class="ex-muscle">Outer Chest</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Incline Push-Ups (hands on chair/bed)</div><div class="ex-detail">3 × 15 reps · 60s rest</div></div><div class="ex-muscle">Lower Chest</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Decline Push-Ups (feet on chair)</div><div class="ex-detail">3 × 10–12 reps · 90s rest</div></div><div class="ex-muscle">Upper Chest</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Diamond Push-Ups</div><div class="ex-detail">3 × 10–12 reps · 60s rest</div></div><div class="ex-muscle">Triceps</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Chair Dips</div><div class="ex-detail">3 × 12–15 reps · 60s rest</div></div><div class="ex-muscle">Triceps</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Pike Push-Ups</div><div class="ex-detail">3 × 10–12 reps · 60s rest</div></div><div class="ex-muscle">Shoulders</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">08</div><div class="ex-info"><div class="ex-name">Wall Push-Ups (slow 4-count)</div><div class="ex-detail">2 × 15 reps · 45s rest</div></div><div class="ex-muscle">Shoulder Finisher</div><div class="check-icon">✓</div></div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Standard Push-Ups</div><div class="ex-detail">4 × 15–20 reps · 60s rest</div></div><div class="ex-muscle">Chest</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Place hands slightly wider than shoulder-width, fingers pointing forward.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Arms fully extended, body in a straight line from head to heels.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Brace core, squeeze glutes — your body should be rigid like a plank.</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">4</span>Lower chest to floor over 2–3 seconds — elbows at ~45° to body (not flared out wide).</div>
+              <div class="guide-step"><span class="guide-step-num">5</span>Push back up explosively. Squeeze chest at the top.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Chest should touch or nearly touch the floor — half reps don't count</div>
+              <div class="guide-tip">Keep neck neutral — don't drop head or crane it forward</div>
+              <div class="guide-tip">Slow descent = more muscle activation. 3 sec down, 1 sec up</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Hips sagging or raised — body must be one straight line</div>
+              <div class="guide-avoid-item">Elbows flaring out 90° — causes shoulder impingement</div>
+              <div class="guide-avoid-item">Half reps — go all the way down every time</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Wide-Grip Push-Ups</div><div class="ex-detail">3 × 12–15 reps · 60s rest</div></div><div class="ex-muscle">Outer Chest</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Place hands 1.5× shoulder-width apart, slightly wider than standard.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Fingers angled slightly outward (about 15–20°).</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">3</span>Lower chest between hands — elbows track outward more than standard push-up.</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Press up and feel the outer pecs squeeze at the top.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Focus on feeling the stretch across your chest at the bottom</div>
+              <div class="guide-tip">Don't lock elbows at the top — keep tension on chest</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Hands too wide — strains wrists and shoulders</div>
+              <div class="guide-avoid-item">Core not braced — lower back arches</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Incline Push-Ups (hands on chair)</div><div class="ex-detail">3 × 15 reps · 60s rest</div></div><div class="ex-muscle">Lower Chest</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Place both hands on the edge of a sturdy chair or bed. Arms straight, body at ~45° angle.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Body must be in a straight line from head to heels — no hip drop.</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">3</span>Bend elbows and lower chest toward the chair edge.</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Push back up fully. The higher the surface, the easier — use a lower surface to progress.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Targets the lower chest — really squeeze at the top of each rep</div>
+              <div class="guide-tip">Make sure chair is against a wall so it doesn't slide</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Decline Push-Ups (feet on chair)</div><div class="ex-detail">3 × 10–12 reps · 90s rest</div></div><div class="ex-muscle">Upper Chest</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Place feet on chair or bed, hands on the floor at shoulder width.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Body forms a downward angle — hips, back, and neck all aligned.</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">3</span>Lower nose toward floor slowly, elbows at ~45° to body.</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Push back up strongly. This hits the upper chest and front shoulders hard.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">The higher your feet, the harder and more upper-chest focused it gets</div>
+              <div class="guide-tip">This is the hardest push-up variation — take extra rest if needed</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Hips rising up — keep them in line with your torso</div>
+              <div class="guide-avoid-item">Looking straight down — look slightly ahead to keep neck neutral</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Diamond Push-Ups</div><div class="ex-detail">3 × 10–12 reps · 60s rest</div></div><div class="ex-muscle">Triceps</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Place hands under your chest, touching thumbs and index fingers together to form a diamond shape.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Arms extended, body in a straight plank line.</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">3</span>Lower chest toward your hands — elbows will naturally point backward and stay close to body.</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Push up powerfully. Feel the back of your arms (triceps) doing the work.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Keep elbows tucked — do NOT let them flare out to the sides</div>
+              <div class="guide-tip">If wrists hurt, make fists instead of flat palms</div>
+              <div class="guide-tip">This is very tricep-focused — expect fatigue quickly</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Elbows flaring wide — removes tricep emphasis, strains shoulders</div>
+              <div class="guide-avoid-item">Hands too far from chest — shifts load to chest, less tricep activation</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Chair Dips</div><div class="ex-detail">3 × 12–15 reps · 60s rest</div></div><div class="ex-muscle">Triceps</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Sit on the edge of a sturdy chair. Place hands on the edge beside your hips, fingers forward.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Slide your hips off the chair. Keep feet flat or legs extended (harder).</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">3</span>Bend elbows straight back and lower your body until upper arms are parallel to floor (90°).</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Press back up through the palms. Don't use legs to help.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Keep hips close to the chair — don't drift forward</div>
+              <div class="guide-tip">Keep chest up and shoulders back and down throughout</div>
+              <div class="guide-tip">The closer your feet, the easier. Legs extended = harder</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Elbows flaring out to sides — must point straight back</div>
+              <div class="guide-avoid-item">Going too deep — stop at 90° to protect shoulder joint</div>
+              <div class="guide-avoid-item">Shoulders shrugging up — keep them packed down</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Pike Push-Ups</div><div class="ex-detail">3 × 10–12 reps · 60s rest</div></div><div class="ex-muscle">Shoulders</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Start in a push-up position, then walk feet toward hands to form an inverted V shape (like a downward dog).</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Hips high in the air, head between arms, back straight.</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">3</span>Bend elbows and lower the top of your head toward the floor.</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Press back up through shoulders. This mimics a shoulder press movement.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">The more vertical your body, the more it targets shoulders over chest</div>
+              <div class="guide-tip">Walk feet closer to hands for more shoulder activation</div>
+              <div class="guide-tip">Look at the floor between your hands — don't crank your neck</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Hips dropping — keep them high throughout the movement</div>
+              <div class="guide-avoid-item">Barely bending elbows — go until head nearly touches floor</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">08</div><div class="ex-info"><div class="ex-name">Wall Push-Ups (slow 4-count)</div><div class="ex-detail">2 × 15 reps · 45s rest</div></div><div class="ex-muscle">Shoulder Finisher</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to do it</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Stand 1–2 feet from a wall. Place palms flat on wall at shoulder height and width.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Take 4 seconds to lean in (chest to wall), then 1 second to push back out.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">This is a finisher — shoulders will be burning, slow tempo makes it effective despite low resistance</div>
+              <div class="guide-tip">Step further from wall to increase difficulty</div>
+              <div class="guide-tip">Keep core engaged — don't arch lower back</div>
+            </div>
+          </div>
+        </div>
+
       </div>
+
       <div class="phase-label">Cardio Finisher</div>
       <div class="exercise-grid">
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">C</div><div class="ex-info"><div class="ex-name">High Knees</div><div class="ex-detail">3 × 45 sec · 30s rest</div></div><div class="ex-muscle">Cardio</div><div class="check-icon">✓</div></div>
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-mon')"><div class="ex-num">C</div><div class="ex-info"><div class="ex-name">High Knees</div><div class="ex-detail">3 × 45 sec · 30s rest</div></div><div class="ex-muscle">Cardio</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to do it</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Stand in place. Drive knees alternately up to hip height while pumping arms.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Land on the ball of foot each time — stay light and fast.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Keep chest tall — don't hunch forward to meet your knees</div>
+              <div class="guide-tip">Pump arms actively — it drives the pace and burns more calories</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="workout-summary"><div class="progress-bar-wrap"><div class="progress-label"><span>Exercises Completed</span><span id="cnt-home-mon">0 / 11</span></div><div class="progress-bar"><div class="progress-fill" id="fill-home-mon" style="width:0%"></div></div></div><div class="workout-tip">💡 Go slow on the way down (3 sec) for more chest activation. Quality over quantity.</div></div>
+
+      <div class="workout-summary"><div class="progress-bar-wrap"><div class="progress-label"><span>Exercises Completed</span><span id="cnt-home-mon">0 / 11</span></div><div class="progress-bar"><div class="progress-fill" id="fill-home-mon" style="width:0%"></div></div></div><div class="workout-tip">💡 Slow down the lowering phase — 3 sec down activates far more muscle than fast reps.</div></div>
     </div>
 
-    <!-- HOME TUE: Pull (Back, Biceps) -->
+    <!-- ── HOME TUE: Pull ── -->
     <div class="workout-plan" id="home-tue">
       <div style="margin-bottom:20px"><div class="workout-title" style="font-size:22px;color:var(--purple)">Tuesday — Pull (Back & Biceps)</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Bodyweight pull · Est. 40–45 mins</div></div>
+
       <div class="phase-label">Warm Up</div>
       <div class="exercise-grid">
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">W</div><div class="ex-info"><div class="ex-name">Cat-Cow + Child's Pose</div><div class="ex-detail">2 mins mobility</div></div><div class="ex-muscle">Spine</div><div class="check-icon">✓</div></div>
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">W</div><div class="ex-info"><div class="ex-name">Cat-Cow + Child's Pose</div><div class="ex-detail">2 mins mobility</div></div><div class="ex-muscle">Spine</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Cat-Cow</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>On all fours — wrists under shoulders, knees under hips.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Inhale: drop belly, lift chest and tailbone (Cow). Exhale: round spine upward, tuck chin (Cat).</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Flow slowly for 1 min.</div>
+            </div>
+            <div class="guide-section">Child's Pose</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">4</span>Sit back on heels, arms extended forward on floor, forehead down. Hold 30 sec. Breathe into lower back.</div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div class="phase-label">Main Workout</div>
       <div class="exercise-grid">
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Pull-Ups or Negative Pull-Ups*</div><div class="ex-detail">4 × max reps · 2 min rest</div></div><div class="ex-muscle">Back / Biceps</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Door Frame Rows (use a towel)</div><div class="ex-detail">4 × 12–15 reps · 90s rest</div></div><div class="ex-muscle">Mid-Back</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Superman Hold</div><div class="ex-detail">3 × 15 reps · hold 2 sec each</div></div><div class="ex-muscle">Lower Back</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Reverse Snow Angels (floor, prone)</div><div class="ex-detail">3 × 15 reps · 60s rest</div></div><div class="ex-muscle">Upper Back</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Isometric Bicep Curl (using table)</div><div class="ex-detail">3 × 30 sec hold each arm</div></div><div class="ex-muscle">Biceps</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Chin-Ups (underhand grip)</div><div class="ex-detail">3 × max reps · 2 min rest</div></div><div class="ex-muscle">Biceps / Back</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">YTW Raises (lying prone)</div><div class="ex-detail">3 × 12 reps each letter</div></div><div class="ex-muscle">Rear Delt / Traps</div><div class="check-icon">✓</div></div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Pull-Ups or Negative Pull-Ups</div><div class="ex-detail">4 × max reps · 2 min rest</div></div><div class="ex-muscle">Back / Biceps</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Pull-Up Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Hang from a bar with overhand grip, hands slightly wider than shoulders.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Dead hang — arms fully extended, shoulders engaged (not shrugged up).</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">3</span>Drive elbows down toward your hips — think "elbow to back pocket".</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Pull until chin clears the bar. Lower under control over 3 seconds.</div>
+            </div>
+            <div class="guide-section">Negative Pull-Up (if you can't do full pull-ups)</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">5</span>Use a chair to jump to the top position (chin above bar).</div>
+              <div class="guide-step"><span class="guide-step-num">6</span>Remove feet, lower yourself as slowly as possible (aim for 5–8 seconds).</div>
+              <div class="guide-step"><span class="guide-step-num">7</span>Do 5×5 negatives — in 4–6 weeks you'll do full pull-ups.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Don't kip or swing — strict reps only for muscle growth</div>
+              <div class="guide-tip">Retract shoulder blades before pulling — protects the joint</div>
+              <div class="guide-tip">Full range: dead hang at bottom, chin over bar at top</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Shrugging shoulders up — pack them down before you pull</div>
+              <div class="guide-avoid-item">Half reps — not reaching chin over bar</div>
+              <div class="guide-avoid-item">Swinging body for momentum — it defeats the purpose</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Door Frame Rows (towel)</div><div class="ex-detail">4 × 12–15 reps · 90s rest</div></div><div class="ex-muscle">Mid-Back</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Loop a folded towel around a door handle. Hold both ends with both hands.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Lean back until arms are fully extended, body at ~45° angle. Feet flat on floor near the door.</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">3</span>Squeeze shoulder blades together first, then pull your chest toward the door handle.</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Hold 1 second at the top, then lower with control.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">The lower your body angle, the harder it is — walk feet closer to door to progress</div>
+              <div class="guide-tip">Think "lead with your chest" not "pull with your arms"</div>
+              <div class="guide-tip">Keep elbows close to body and pointing backward</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Using only arms — initiate every rep by squeezing shoulder blades</div>
+              <div class="guide-avoid-item">Body not straight — hips must not drop or pike up</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Superman Hold</div><div class="ex-detail">3 × 15 reps · hold 2 sec each</div></div><div class="ex-muscle">Lower Back</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup & Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Lie face down on floor, arms extended overhead, legs straight.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Simultaneously lift arms, chest, and legs off the floor using your lower back and glutes.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Hold the top position for 2 seconds, squeezing glutes and back muscles.</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Lower slowly. That's one rep.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Don't strain your neck — keep it in line with spine, eyes looking at floor</div>
+              <div class="guide-tip">Squeeze glutes hard at the top for maximum lower back protection</div>
+              <div class="guide-tip">Breathe out as you lift, breathe in as you lower</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Cranking neck backward — keep it neutral throughout</div>
+              <div class="guide-avoid-item">Bouncing up and down — slow and controlled only</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Reverse Snow Angels (prone)</div><div class="ex-detail">3 × 15 reps · 60s rest</div></div><div class="ex-muscle">Upper Back</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to do it</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Lie face down, arms at sides with palms facing down, thumbs up.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Lift arms slightly off the floor. Sweep them forward overhead like a snow angel — keeping them off the ground the whole time.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Reverse the arc back to start. That's 1 rep.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Squeeze shoulder blades together throughout the movement</div>
+              <div class="guide-tip">Arms must stay off the floor the entire set — this is the challenge</div>
+              <div class="guide-tip">Go slow — fast reps lose all the tension</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Isometric Bicep Curl (table)</div><div class="ex-detail">3 × 30 sec hold each arm</div></div><div class="ex-muscle">Biceps</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Sit at a table. Place your palm face-up under the table edge.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Curl your arm upward as if doing a bicep curl — but the table prevents movement.</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">3</span>Push up hard against the table for 30 seconds — max contraction.</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Switch arms. Rest 30 sec. Repeat 3 times each arm.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Push hard enough to feel a strong burn in the bicep within 15 seconds</div>
+              <div class="guide-tip">Keep shoulder still — only the bicep should be working</div>
+              <div class="guide-tip">Breathe steadily — don't hold your breath during isometric holds</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Chin-Ups (underhand grip)</div><div class="ex-detail">3 × max reps · 2 min rest</div></div><div class="ex-muscle">Biceps / Back</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Grip the bar with palms facing you (supinated), hands shoulder-width apart.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Hang at full extension. Pack shoulders down before pulling.</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">3</span>Pull up until chin clears the bar. Biceps do more of the work here vs overhand pull-ups.</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Lower fully — don't stop short at the bottom.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Chin-ups are easier than pull-ups for beginners — great to build toward pull-ups</div>
+              <div class="guide-tip">Keep elbows pointing forward (not flared) throughout</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">YTW Raises (lying prone)</div><div class="ex-detail">3 × 12 reps each letter</div></div><div class="ex-muscle">Rear Delt / Traps</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to do it</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Lie face down, arms lifted slightly off the ground, thumbs pointing up.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span><strong>Y:</strong> Raise arms to form a Y shape overhead. Hold 1 sec. Lower.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span><strong>T:</strong> Raise arms out to sides (like a T). Squeeze shoulder blades. Hold 1 sec. Lower.</div>
+              <div class="guide-step"><span class="guide-step-num">4</span><strong>W:</strong> Bend elbows and pull them toward hips (like a rowing motion). Hold 1 sec. Lower.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Go very slow — speed kills the benefit of this exercise</div>
+              <div class="guide-tip">Keep arms off the floor throughout the entire set</div>
+              <div class="guide-tip">Great for posture and shoulder health — don't skip it</div>
+            </div>
+          </div>
+        </div>
+
       </div>
+
       <div class="phase-label">Cardio Finisher</div>
       <div class="exercise-grid">
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">C</div><div class="ex-info"><div class="ex-name">Brisk Walk (outdoors preferred)</div><div class="ex-detail">20 mins</div></div><div class="ex-muscle">Cardio</div><div class="check-icon">✓</div></div>
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-tue')"><div class="ex-num">C</div><div class="ex-info"><div class="ex-name">Brisk Walk (outdoors preferred)</div><div class="ex-detail">20 mins</div></div><div class="ex-muscle">Cardio</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Pace should be fast enough that you can talk but not sing</div>
+              <div class="guide-tip">Swing arms actively — burns 10–15% more calories</div>
+              <div class="guide-tip">Walk on a slightly inclined surface (uphill) to engage glutes</div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div style="background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.2);border-radius:10px;padding:12px 16px;margin-top:12px;font-size:12px;color:var(--text-muted);line-height:1.6">
-        <strong style="color:var(--purple)">*Negative Pull-Ups:</strong> Use a chair to jump to the top position, then lower yourself slowly over 5 seconds. Great alternative if you can't do full pull-ups yet.<br>
-        <strong style="color:var(--purple)">*Door Frame Row:</strong> Loop a towel around a door handle. Lean back, feet flat on floor, then row yourself towards the door.
+        <strong style="color:var(--purple)">*Negative Pull-Ups:</strong> Jump to the top, lower over 5–8 seconds. Best way to build pull-up strength from scratch.<br>
+        <strong style="color:var(--purple)">*Door Frame Row:</strong> Loop towel around door handle. Lean back, feet flat, row chest toward door.
       </div>
-      <div class="workout-summary"><div class="progress-bar-wrap"><div class="progress-label"><span>Exercises Completed</span><span id="cnt-home-tue">0 / 9</span></div><div class="progress-bar"><div class="progress-fill" id="fill-home-tue" style="width:0%"></div></div></div><div class="workout-tip">💡 If you can't do pull-ups yet, start with door frame rows and negatives for 4 weeks — you'll get there.</div></div>
+      <div class="workout-summary"><div class="progress-bar-wrap"><div class="progress-label"><span>Exercises Completed</span><span id="cnt-home-tue">0 / 9</span></div><div class="progress-bar"><div class="progress-fill" id="fill-home-tue" style="width:0%"></div></div></div><div class="workout-tip">💡 Can't do pull-ups? Do 5×5 negative pull-ups — in 4 weeks you'll be doing full reps.</div></div>
     </div>
 
     <!-- HOME WED: Rest -->
@@ -818,57 +1303,495 @@
       <div class="rest-day-card"><div class="rest-icon">😴</div><h3>ACTIVE RECOVERY DAY</h3><p>Light stretching or yoga at home. 20 min walk outdoors. Rest is where strength is built.</p></div>
     </div>
 
-    <!-- HOME THU: Shoulders + Abs + Core -->
+    <!-- ── HOME THU: Shoulders + Core ── -->
     <div class="workout-plan" id="home-thu">
       <div style="margin-bottom:20px"><div class="workout-title" style="font-size:22px;color:var(--purple)">Thursday — Shoulders, Abs & Core</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">No weights needed · Est. 40–45 mins</div></div>
+
       <div class="phase-label">Main Workout</div>
       <div class="exercise-grid">
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Pike Push-Ups (deep range)</div><div class="ex-detail">4 × 10–15 reps · 90s rest</div></div><div class="ex-muscle">Shoulders</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Handstand Hold (against wall)</div><div class="ex-detail">3 × 20–30 sec hold</div></div><div class="ex-muscle">Shoulders / Core</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Side Lateral Raise (water bottles)</div><div class="ex-detail">3 × 15 reps · 60s rest</div></div><div class="ex-muscle">Lateral Delt</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Plank</div><div class="ex-detail">4 × 45–60 sec holds</div></div><div class="ex-muscle">Core</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Bicycle Crunches</div><div class="ex-detail">3 × 20 reps each side</div></div><div class="ex-muscle">Abs</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Leg Raises (floor)</div><div class="ex-detail">3 × 15 reps</div></div><div class="ex-muscle">Lower Abs</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Mountain Climbers</div><div class="ex-detail">3 × 30 sec</div></div><div class="ex-muscle">Core / Cardio</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">08</div><div class="ex-info"><div class="ex-name">Russian Twists (bodyweight)</div><div class="ex-detail">3 × 20 reps</div></div><div class="ex-muscle">Obliques</div><div class="check-icon">✓</div></div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Pike Push-Ups (deep range)</div><div class="ex-detail">4 × 10–15 reps · 90s rest</div></div><div class="ex-muscle">Shoulders</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup & Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Form inverted V — hips high, hands and feet on floor, back straight.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Lower top of head toward floor between hands over 3 seconds.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Press back up explosively. Full range = head nearly touches floor.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Walk feet in closer to hands to increase the angle and shoulder load</div>
+              <div class="guide-tip">Head goes between hands, not in front of them</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Hips dropping down — keep them elevated throughout</div>
+              <div class="guide-avoid-item">Tiny range of motion — go all the way down every rep</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Handstand Hold (against wall)</div><div class="ex-detail">3 × 20–30 sec hold</div></div><div class="ex-muscle">Shoulders / Core</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to kick up</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Face away from wall. Place hands 15–20cm from wall, shoulder-width apart.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Kick one leg up, then the other, to get heels resting against the wall.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Hold: arms locked, core tight, glutes squeezed, body as vertical as possible.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Keep pushing the floor away actively — arms should be rigid, not limp</div>
+              <div class="guide-tip">Breathe steadily. If you feel dizzy, come down slowly</div>
+              <div class="guide-tip">Beginner: put hands further from wall for a more angled (easier) hold</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Banana shape (arched back) — squeeze core and glutes to straighten</div>
+              <div class="guide-avoid-item">Soft elbows — lock arms fully and push actively</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Lateral Raise (water bottles)</div><div class="ex-detail">3 × 15 reps · 60s rest</div></div><div class="ex-muscle">Lateral Delt</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Hold a full 1L water bottle in each hand. Stand tall, slight bend in knees.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Arms at sides, slight bend in elbows (not locked straight).</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">3</span>Raise both arms out to sides simultaneously — stop at shoulder height (no higher).</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Lower slowly over 3 seconds. The lowering builds as much muscle as the lift.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Lead with your elbows, not your hands — it activates lateral delt better</div>
+              <div class="guide-tip">Tilt the bottle slightly so pinky side is higher (like pouring water) — hits delt harder</div>
+              <div class="guide-tip">Don't shrug — shoulders stay packed down throughout</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Swinging body to get bottles up — use lighter bottles, strict form only</div>
+              <div class="guide-avoid-item">Going above shoulder height — strains AC joint</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Plank</div><div class="ex-detail">4 × 45–60 sec holds</div></div><div class="ex-muscle">Core</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Forearms on floor, elbows under shoulders. Body forms a straight line — head to heels.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Brace abs hard (as if about to take a punch), squeeze glutes, press forearms into floor.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Breathe steadily — don't hold your breath or the time will feel impossible</div>
+              <div class="guide-tip">Push forearms into floor to engage shoulders and lats too</div>
+              <div class="guide-tip">Quality: a 30-sec perfect plank beats a 60-sec sagging one</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Hips too high — lowers core engagement</div>
+              <div class="guide-avoid-item">Hips sagging — lower back strain, stop and reset</div>
+              <div class="guide-avoid-item">Head dropping — keep neck neutral, eyes looking down</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Bicycle Crunches</div><div class="ex-detail">3 × 20 reps each side</div></div><div class="ex-muscle">Abs</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to do it</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Lie on back, hands lightly behind head (don't pull neck), knees at 90°.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Lift shoulders off floor. Bring right knee toward chest while rotating left elbow to meet it.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Extend right leg out, switch to left knee + right elbow. That's 1 rep each side.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Rotate your torso — not just your elbow. Think shoulder to knee</div>
+              <div class="guide-tip">Go SLOW — fast bicycle crunches activate momentum, not abs</div>
+              <div class="guide-tip">Keep lower back pressed into floor throughout</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Pulling neck with hands — causes strain, hands just support lightly</div>
+              <div class="guide-avoid-item">Going too fast — bicycles done correctly should feel hard</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Leg Raises (floor)</div><div class="ex-detail">3 × 15 reps</div></div><div class="ex-muscle">Lower Abs</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to do it</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Lie flat on back, hands under your hips or at sides, legs straight.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Keeping legs straight, raise them to 90° (pointing at ceiling).</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Lower slowly back down — stop just before heels touch floor. Repeat.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Press lower back firmly into the floor — this protects your spine</div>
+              <div class="guide-tip">Lowering slowly (3–4 sec) is where all the lower ab work happens</div>
+              <div class="guide-tip">If too hard: bend knees slightly to reduce lever arm</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Lower back arching off floor — reduces abs, strains lumbar spine</div>
+              <div class="guide-avoid-item">Dropping legs too fast — controlled lowering is the whole point</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Mountain Climbers</div><div class="ex-detail">3 × 30 sec</div></div><div class="ex-muscle">Core / Cardio</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to do it</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Start in a high push-up position — arms locked, body in a plank.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Drive right knee toward chest, then quickly switch — left knee in as right goes back.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Keep alternating fast. Hips must stay level — don't bob up and down.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Squeeze core the entire time — don't let hips rise</div>
+              <div class="guide-tip">Drive knees as close to chest as possible each rep</div>
+              <div class="guide-tip">Breathe rhythmically — don't hold breath</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Hips rising with each step — keep them flat and stable</div>
+              <div class="guide-avoid-item">Arms bending — lock elbows, push into floor</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">08</div><div class="ex-info"><div class="ex-name">Russian Twists</div><div class="ex-detail">3 × 20 reps</div></div><div class="ex-muscle">Obliques</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Sit on floor, knees bent at ~90°, feet flat or slightly raised (harder).</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Lean back slightly until you feel your abs engage — about 45° from floor.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Clasp hands together in front of chest.</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">4</span>Rotate torso to the right, tapping hands to floor beside hip. Then rotate left. That's 1 rep.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Rotate from your torso — not just your arms</div>
+              <div class="guide-tip">Raise feet off floor to increase difficulty and core engagement</div>
+              <div class="guide-tip">Hold a full water bottle for added resistance</div>
+            </div>
+          </div>
+        </div>
+
       </div>
+
       <div class="phase-label">Cardio Finisher</div>
       <div class="exercise-grid">
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">C</div><div class="ex-info"><div class="ex-name">Burpees</div><div class="ex-detail">3 × 10 reps · 60s rest</div></div><div class="ex-muscle">Full Body</div><div class="check-icon">✓</div></div>
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-thu')"><div class="ex-num">C</div><div class="ex-info"><div class="ex-name">Burpees</div><div class="ex-detail">3 × 10 reps · 60s rest</div></div><div class="ex-muscle">Full Body</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to do it</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Stand upright. Drop hands to floor and jump feet back to a push-up position.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Do one push-up (optional but recommended).</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Jump feet back toward hands, then explode upward into a jump, arms overhead.</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Land softly and immediately go into the next rep.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Land every jump with soft knees — absorb impact through legs, not joints</div>
+              <div class="guide-tip">Keep core tight in the plank phase — don't let hips sag</div>
+              <div class="guide-tip">Pace yourself — burpees spike heart rate fast. Steady rhythm beats sprinting and collapsing</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Hips sagging in plank — every burpee should have a tight plank position</div>
+              <div class="guide-avoid-item">Not fully extending jump — reach arms fully overhead at the top</div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div class="workout-summary"><div class="progress-bar-wrap"><div class="progress-label"><span>Exercises Completed</span><span id="cnt-home-thu">0 / 9</span></div><div class="progress-bar"><div class="progress-fill" id="fill-home-thu" style="width:0%"></div></div></div><div class="workout-tip">💡 Use 1-litre water bottles as improvised weights for lateral raises.</div></div>
     </div>
 
-    <!-- HOME FRI: Legs + Glutes -->
+    <!-- ── HOME FRI: Legs ── -->
     <div class="workout-plan" id="home-fri">
       <div style="margin-bottom:20px"><div class="workout-title" style="font-size:22px;color:var(--purple)">Friday — Legs & Glutes</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px">Zero equipment · Est. 45–55 mins</div></div>
+
       <div class="phase-label">Warm Up</div>
       <div class="exercise-grid">
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">W</div><div class="ex-info"><div class="ex-name">Leg Swings + Hip Circles</div><div class="ex-detail">2 mins mobility</div></div><div class="ex-muscle">Hips</div><div class="check-icon">✓</div></div>
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">W</div><div class="ex-info"><div class="ex-name">Leg Swings + Hip Circles</div><div class="ex-detail">2 mins mobility</div></div><div class="ex-muscle">Hips</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Leg Swings</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Hold wall for balance. Swing one leg forward and back loosely — 15 reps, then sideways 15 reps. Switch legs.</div>
+            </div>
+            <div class="guide-section">Hip Circles</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">2</span>Hands on hips, feet wide. Make large slow circles with your hips — 10 each direction.</div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div class="phase-label">Main Workout</div>
       <div class="exercise-grid">
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Bodyweight Squats</div><div class="ex-detail">4 × 20–25 reps · 60s rest</div></div><div class="ex-muscle">Quads / Glutes</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Sumo Squats</div><div class="ex-detail">3 × 15 reps · 60s rest</div></div><div class="ex-muscle">Inner Thighs / Glutes</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Jump Squats</div><div class="ex-detail">3 × 10 reps · 90s rest</div></div><div class="ex-muscle">Power / Quads</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Forward Lunges</div><div class="ex-detail">3 × 12 reps each leg</div></div><div class="ex-muscle">Quads / Glutes</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Reverse Lunges</div><div class="ex-detail">3 × 12 reps each leg</div></div><div class="ex-muscle">Glutes / Hamstrings</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Glute Bridges</div><div class="ex-detail">4 × 20 reps · 45s rest</div></div><div class="ex-muscle">Glutes</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Single-Leg Glute Bridge</div><div class="ex-detail">3 × 12 reps each leg</div></div><div class="ex-muscle">Glutes</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">08</div><div class="ex-info"><div class="ex-name">Calf Raises (on a step)</div><div class="ex-detail">4 × 25 reps · 45s rest</div></div><div class="ex-muscle">Calves</div><div class="check-icon">✓</div></div>
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">09</div><div class="ex-info"><div class="ex-name">Wall Sit</div><div class="ex-detail">3 × 45 sec holds · 60s rest</div></div><div class="ex-muscle">Quads</div><div class="check-icon">✓</div></div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Bodyweight Squats</div><div class="ex-detail">4 × 20–25 reps · 60s rest</div></div><div class="ex-muscle">Quads / Glutes</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Feet shoulder-width apart, toes pointing slightly out (15–30°). Arms in front for balance.</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">2</span>Sit back and down — as if sitting into a chair behind you. Chest stays tall.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Lower until thighs are at least parallel to floor (deeper = more glute).</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Drive through heels to stand. Squeeze glutes at the top.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Knees must track over toes — don't let them cave inward</div>
+              <div class="guide-tip">Weight in heels and mid-foot — you should be able to wiggle toes at the bottom</div>
+              <div class="guide-tip">Keep chest up — don't round forward</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Knees caving in — push knees out actively throughout</div>
+              <div class="guide-avoid-item">Heels rising — squat depth is limited by ankle mobility; work on it</div>
+              <div class="guide-avoid-item">Leaning too far forward — keep chest proud and upright</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Sumo Squats</div><div class="ex-detail">3 × 15 reps · 60s rest</div></div><div class="ex-muscle">Inner Thighs / Glutes</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup & Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Wide stance — feet 1.5× shoulder-width, toes pointed out at ~45°.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Lower straight down — keeping chest up and knees tracking over toes.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Push through the whole foot to stand. Squeeze inner thighs and glutes at the top.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Wider stance = more inner thigh and glute activation</div>
+              <div class="guide-tip">Pause at the bottom for 1 second to remove bounce and increase time under tension</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Jump Squats</div><div class="ex-detail">3 × 10 reps · 90s rest</div></div><div class="ex-muscle">Power / Quads</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to do it</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Squat down to parallel with control.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Explode upward — drive arms up for momentum, leave the ground fully.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Land with soft knees — immediately absorb and go into the next squat.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Land quietly — if you're loud, you're landing too stiff</div>
+              <div class="guide-tip">Land with feet flat, absorb through ankles → knees → hips</div>
+              <div class="guide-tip">If knees hurt, replace with slow squat pulses at the bottom</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Landing stiff-legged — always land with bent knees to absorb impact</div>
+              <div class="guide-avoid-item">Not reaching full squat depth before jumping — partial squats = less power</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Forward Lunges</div><div class="ex-detail">3 × 12 reps each leg</div></div><div class="ex-muscle">Quads / Glutes</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to do it</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Stand tall. Step one foot forward about 60–70cm.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Lower your back knee toward the floor — stop just before it touches.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Front thigh should be parallel to floor. Front knee stays above ankle — not past toes.</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Push off front foot to return to start. Alternate legs.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Keep torso completely upright — don't lean forward</div>
+              <div class="guide-tip">Step length matters — too short strains knee, too long strains hip flexor</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Front knee caving inward — push it out over little toe</div>
+              <div class="guide-avoid-item">Trunk collapsing forward — shoulders must stay over hips</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Reverse Lunges</div><div class="ex-detail">3 × 12 reps each leg</div></div><div class="ex-muscle">Glutes / Hamstrings</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to do it</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Stand tall. Step one foot backward (not forward like a regular lunge).</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Lower back knee toward floor. Front shin stays vertical — knee directly over ankle.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Push through front heel to stand. This hits glutes and hamstrings more than forward lunges.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Reverse lunges are easier on the knees than forward lunges — great for beginners</div>
+              <div class="guide-tip">Drive front heel into floor hard when standing — activates glute maximally</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Glute Bridges</div><div class="ex-detail">4 × 20 reps · 45s rest</div></div><div class="ex-muscle">Glutes</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Lie on back. Knees bent at ~90°, feet flat on floor hip-width apart, arms at sides.</div>
+            </div>
+            <div class="guide-section">Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">2</span>Drive through heels and squeeze glutes hard to lift hips until body forms a straight line from knees to shoulders.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Hold the top for 1–2 seconds — really squeeze the glutes.</div>
+              <div class="guide-step"><span class="guide-step-num">4</span>Lower slowly. Don't let hips fully touch floor between reps — keep tension.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">The squeeze at the top is everything — hold it every single rep</div>
+              <div class="guide-tip">Feet too close = more quad, feet further away = more glute</div>
+              <div class="guide-tip">Place a heavy book on your hips for extra resistance</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Not squeezing glutes — just going through the motion does little</div>
+              <div class="guide-avoid-item">Hips not rising high enough — body must form a straight line at top</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Single-Leg Glute Bridge</div><div class="ex-detail">3 × 12 reps each leg</div></div><div class="ex-muscle">Glutes</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">How to do it</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Same as glute bridge but extend one leg straight out at 45°.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Drive through the planted heel only. Keep hips level — don't let one side drop.</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Complete all reps on one side before switching.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Much harder than regular bridge — if you wobble, it's working</div>
+              <div class="guide-tip">Keep raised leg straight and at consistent height throughout</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">08</div><div class="ex-info"><div class="ex-name">Calf Raises (on a step)</div><div class="ex-detail">4 × 25 reps · 45s rest</div></div><div class="ex-muscle">Calves</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup & Movement</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Stand on the edge of a step or raised surface with balls of feet on edge, heels hanging off.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Lower heels as far as possible below the step (full stretch at bottom).</div>
+              <div class="guide-step"><span class="guide-step-num">3</span>Rise up onto toes as high as possible (full contraction at top). Hold 1 sec.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Full range is key — calves need deep stretch at bottom to grow</div>
+              <div class="guide-tip">Pause at top for 1 sec and really squeeze the calf</div>
+              <div class="guide-tip">Do one leg at a time to double the load if too easy</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Flat-ground calf raises — without drop-off, range is too limited</div>
+              <div class="guide-avoid-item">Bouncing — each rep should be slow and full-range</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">09</div><div class="ex-info"><div class="ex-name">Wall Sit</div><div class="ex-detail">3 × 45 sec holds · 60s rest</div></div><div class="ex-muscle">Quads</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Setup</div>
+            <div class="guide-steps">
+              <div class="guide-step"><span class="guide-step-num">1</span>Stand with back flat against wall. Walk feet out until thighs are parallel to floor — knees at 90°.</div>
+              <div class="guide-step"><span class="guide-step-num">2</span>Keep back fully flat against the wall. Hold the position.</div>
+            </div>
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Feet should be directly under knees — not too close to wall</div>
+              <div class="guide-tip">Press back firmly into wall throughout — don't slide down</div>
+              <div class="guide-tip">Breathe steadily — the burn is normal, keep going</div>
+            </div>
+            <div class="guide-section">Common Mistakes</div>
+            <div class="guide-avoid">
+              <div class="guide-avoid-item">Knees past toes — walk feet further out</div>
+              <div class="guide-avoid-item">Thighs above parallel — sit lower for full quad activation</div>
+            </div>
+          </div>
+        </div>
+
       </div>
+
       <div class="phase-label">Cardio Finisher</div>
       <div class="exercise-grid">
-        <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">C</div><div class="ex-info"><div class="ex-name">Stair Climbing (at home or outdoors)</div><div class="ex-detail">10 mins continuous</div></div><div class="ex-muscle">Cardio / Legs</div><div class="check-icon">✓</div></div>
+        <div style="display:flex;flex-direction:column">
+          <div class="exercise-card home-exercise-card" onclick="toggleEx(this,'home-fri')"><div class="ex-num">C</div><div class="ex-info"><div class="ex-name">Stair Climbing</div><div class="ex-detail">10 mins continuous</div></div><div class="ex-muscle">Cardio / Legs</div><div class="check-icon">✓</div></div>
+          <button class="guide-btn" onclick="toggleGuide(this)">📋 Technique Guide <span class="g-arrow">▼</span></button>
+          <div class="guide-body">
+            <div class="guide-section">Key Tips</div>
+            <div class="guide-tips">
+              <div class="guide-tip">Take 2 steps at a time for more glute activation</div>
+              <div class="guide-tip">Push through heel (not toe) to drive glutes harder</div>
+              <div class="guide-tip">No stairs? Do step-ups on a sturdy chair — 10 reps each leg for 10 mins</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="workout-summary"><div class="progress-bar-wrap"><div class="progress-label"><span>Exercises Completed</span><span id="cnt-home-fri">0 / 11</span></div><div class="progress-bar"><div class="progress-fill" id="fill-home-fri" style="width:0%"></div></div></div><div class="workout-tip">💡 Jump squats make bodyweight leg day intense — if your joints hurt, replace with slow squats.</div></div>
+
+      <div class="workout-summary"><div class="progress-bar-wrap"><div class="progress-label"><span>Exercises Completed</span><span id="cnt-home-fri">0 / 11</span></div><div class="progress-bar"><div class="progress-fill" id="fill-home-fri" style="width:0%"></div></div></div><div class="workout-tip">💡 Jump squats too intense? Replace with slow squat pulses at the bottom for same burn, zero impact.</div></div>
     </div>
 
     <div class="workout-plan" id="home-sat"><div class="rest-day-card"><div class="rest-icon">🌅</div><h3>REST & RECHARGE</h3><p>Light outdoor walk, stretching at home. No formal workout needed today.</p></div></div>
     <div class="workout-plan" id="home-sun"><div class="rest-day-card"><div class="rest-icon">☀️</div><h3>FULL REST DAY</h3><p>Recover fully. Prep your meals and mindset for the week ahead.</p></div></div>
   </div>
-</div>
 
 <!-- ═══════════════════════════════════════════ GROCERY TAB ═══════════════════════════════════════════ -->
 <div class="tab-content" id="tab-grocery">
@@ -1048,6 +1971,11 @@
     const fill = document.getElementById('fill-'+group);
     if (cnt) cnt.textContent = done + ' / ' + all;
     if (fill) fill.style.width = (done/all*100)+'%';
+  }
+
+  function toggleGuide(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
   }
 
   function toggleRecipe(btn) {
