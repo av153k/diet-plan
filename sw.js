@@ -1,28 +1,26 @@
-const CACHE_NAME = 'daily-plan-v2';
+// ── Detect base path dynamically (works for both yourusername.github.io AND yourusername.github.io/repo-name/) ──
+const BASE_PATH = self.location.pathname.replace('/sw.js', '');
+
+const CACHE_NAME = 'daily-plan-v3';
+
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/icons/maskable-512.png',
-  'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap'
+  BASE_PATH + '/',
+  BASE_PATH + '/index.html',
+  BASE_PATH + '/manifest.json',
+  BASE_PATH + '/icons/icon-192.png',
+  BASE_PATH + '/icons/icon-512.png',
+  BASE_PATH + '/icons/maskable-512.png',
 ];
 
-// ── INSTALL: cache all assets ──
+// ── INSTALL: cache all local assets ──
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(ASSETS.filter(u => !u.startsWith('http'))).then(() => {
-        // Try to cache Google Fonts separately (non-critical, may fail on first load)
-        return cache.addAll(ASSETS.filter(u => u.startsWith('http'))).catch(() => {});
-      });
-    })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
   self.skipWaiting();
 });
 
-// ── ACTIVATE: clean up old caches ──
+// ── ACTIVATE: delete old caches ──
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
@@ -32,11 +30,11 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// ── FETCH: cache-first for local assets, network-first for fonts ──
+// ── FETCH ──
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // Always try network first for Google Fonts (handles font updates)
+  // Network-first for Google Fonts
   if (url.hostname.includes('googleapis.com') || url.hostname.includes('gstatic.com')) {
     event.respondWith(
       fetch(event.request)
@@ -50,8 +48,8 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Network-first for HTML pages — always fetch fresh, fall back to cache
-  if (url.pathname.endsWith('.html') || url.pathname === '/' || url.pathname === '') {
+  // Network-first for HTML — always get the freshest page
+  if (url.pathname.endsWith('.html') || url.pathname.endsWith('/') || url.pathname === BASE_PATH || url.pathname === BASE_PATH + '/') {
     event.respondWith(
       fetch(event.request)
         .then(res => {
@@ -64,12 +62,12 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Cache-first for everything else (assets, icons, manifest)
+  // Cache-first for all other assets (icons, manifest, etc.)
   event.respondWith(
     caches.match(event.request).then(cached => {
       if (cached) return cached;
       return fetch(event.request).then(res => {
-        if (res && res.status === 200 && res.type !== 'opaque') {
+        if (res && res.status === 200) {
           const clone = res.clone();
           caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
         }
@@ -79,7 +77,7 @@ self.addEventListener('fetch', event => {
   );
 });
 
-// ── SYNC: handle background sync for grocery/workout state ──
+// ── MESSAGE: force update ──
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();

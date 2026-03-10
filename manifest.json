@@ -2,13 +2,13 @@
   "name": "Abhishek's Daily Plan",
   "short_name": "Daily Plan",
   "description": "Personalised diet plan, workout tracker, recipes & grocery list",
-  "start_url": "/",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0D1117",
   "theme_color": "#39D98A",
   "orientation": "portrait-primary",
   "lang": "en",
-  "scope": "/",
+  "scope": "./",
   "categories": ["health", "fitness", "food"],
   "icons": [
     { "src": "icons/icon-72.png",     "sizes": "72x72",   "type": "image/png" },
@@ -26,21 +26,21 @@
       "name": "Diet Plan",
       "short_name": "Diet",
       "description": "View today's meals",
-      "url": "/?tab=diet",
+      "url": "./index.html?tab=diet",
       "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
     },
     {
       "name": "Workout",
       "short_name": "Workout",
       "description": "Open workout tracker",
-      "url": "/?tab=workout",
+      "url": "./index.html?tab=workout",
       "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
     },
     {
       "name": "Grocery List",
       "short_name": "Grocery",
       "description": "Open shopping list",
-      "url": "/?tab=grocery",
+      "url": "./index.html?tab=grocery",
       "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
     }
   ]
