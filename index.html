@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhishek's Daily Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0D1117;
+    --surface: #161B22;
+    --surface2: #1C2430;
+    --border: #2A3441;
+    --green: #39D98A;
+    --green-dim: #1A4D35;
+    --orange: #FF8C42;
+    --orange-dim: #4D2A10;
+    --blue: #58A6FF;
+    --blue-dim: #102040;
+    --yellow: #F0C040;
+    --red: #FF6B6B;
+    --text: #E6EDF3;
+    --text-muted: #7D8590;
+    --text-dim: #4A5568;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(57, 217, 138, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(57, 217, 138, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 8vw, 88px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: var(--text);
+  }
+
+  .header h1 span {
+    color: var(--green);
+    display: block;
+  }
+
+  .header-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .badge-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(57,217,138,0.3); }
+  .badge-orange { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(255,140,66,0.3); }
+  .badge-blue { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(88,166,255,0.3); }
+
+  .header-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .stat-card:hover { border-color: var(--green); transform: translateY(-2px); }
+
+  .stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--green);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 4px;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 4px;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.15s ease forwards;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .tab.active {
+    background: var(--green);
+    color: #0D1117;
+  }
+
+  .tab:not(.active):hover {
+    background: var(--surface2);
+    color: var(--text);
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active {
+    display: block;
+    animation: fadeUp 0.4s ease;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 54px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--green), transparent);
+    opacity: 0.3;
+  }
+
+  .meal-block {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .meal-block:nth-child(1) { animation-delay: 0.05s; }
+  .meal-block:nth-child(2) { animation-delay: 0.1s; }
+  .meal-block:nth-child(3) { animation-delay: 0.15s; }
+  .meal-block:nth-child(4) { animation-delay: 0.2s; }
+  .meal-block:nth-child(5) { animation-delay: 0.25s; }
+  .meal-block:nth-child(6) { animation-delay: 0.3s; }
+
+  .meal-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding-top: 18px;
+  }
+
+  .time-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 12px rgba(57,217,138,0.5);
+    flex-shrink: 0;
+  }
+
+  .time-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .meal-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .meal-card:hover {
+    border-color: rgba(57,217,138,0.4);
+    transform: translateX(4px);
+  }
+
+  .meal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .meal-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .meal-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    background: var(--green-dim);
+  }
+
+  .meal-macros {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .macro-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+
+  .macro-p { background: rgba(57,217,138,0.12); color: var(--green); border: 1px solid rgba(57,217,138,0.2); }
+  .macro-c { background: rgba(88,166,255,0.12); color: var(--blue); border: 1px solid rgba(88,166,255,0.2); }
+  .macro-f { background: rgba(240,192,64,0.12); color: var(--yellow); border: 1px solid rgba(240,192,64,0.2); }
+  .macro-cal { background: rgba(255,107,107,0.12); color: var(--red); border: 1px solid rgba(255,107,107,0.2); }
+
+  .meal-foods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .food-chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-size: 13px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .food-chip span { color: var(--text-muted); font-size: 12px; }
+
+  /* TOTALS BAR */
+  .totals-bar {
+    background: linear-gradient(135deg, var(--green-dim), rgba(57,217,138,0.05));
+    border: 1px solid rgba(57,217,138,0.3);
+    border-radius: 16px;
+    padding: 20px 28px;
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.35s ease forwards;
+  }
+
+  .total-item { text-align: center; }
+
+  .total-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    line-height: 1;
+  }
+
+  .total-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 2px;
+  }
+
+  /* WORKOUT SECTION */
+  .workout-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.4s ease forwards;
+  }
+
+  .workout-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--orange);
+    letter-spacing: 1px;
+  }
+
+  .day-selector {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.4s 0.1s ease forwards;
+  }
+
+  .day-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .day-btn.active { background: var(--orange); color: #0D1117; border-color: var(--orange); }
+  .day-btn.rest { border-color: rgba(125,133,144,0.3); }
+  .day-btn:not(.active):hover { border-color: var(--orange); color: var(--orange); }
+
+  .workout-plan { display: none; }
+  .workout-plan.active { display: block; animation: fadeUp 0.35s ease; }
+
+  .phase-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .phase-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .exercise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .exercise-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.2s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .exercise-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--orange);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .exercise-card:hover { border-color: rgba(255,140,66,0.4); transform: translateX(4px); }
+  .exercise-card:hover::before { opacity: 1; }
+  .exercise-card.done { background: rgba(57,217,138,0.05); border-color: rgba(57,217,138,0.3); }
+  .exercise-card.done::before { background: var(--green); opacity: 1; }
+
+  .ex-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--text-dim);
+    width: 28px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .exercise-card.done .ex-num { color: var(--green); }
+
+  .ex-info { flex: 1; }
+
+  .ex-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .ex-detail {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .ex-muscle {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 100px;
+    background: var(--orange-dim);
+    color: var(--orange);
+    border: 1px solid rgba(255,140,66,0.2);
+    white-space: nowrap;
+  }
+
+  .exercise-card.done .ex-muscle {
+    background: var(--green-dim);
+    color: var(--green);
+    border-color: rgba(57,217,138,0.2);
+  }
+
+  .check-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    transition: all 0.2s;
+  }
+
+  .exercise-card.done .check-icon {
+    background: var(--green);
+    border-color: var(--green);
+    color: #0D1117;
+  }
+
+  /* Rest day */
+  .rest-day-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px;
+    text-align: center;
+  }
+
+  .rest-day-card .rest-icon { font-size: 48px; margin-bottom: 16px; }
+  .rest-day-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--blue); letter-spacing: 1px; margin-bottom: 8px; }
+  .rest-day-card p { color: var(--text-muted); font-size: 14px; line-height: 1.6; max-width: 400px; margin: 0 auto; }
+
+  /* Progress summary for workout */
+  .workout-summary {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .progress-bar-wrap { flex: 1; min-width: 200px; }
+  .progress-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .progress-bar { height: 6px; background: var(--border); border-radius: 100px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--green); border-radius: 100px; transition: width 0.4s ease; }
+
+  .workout-tip {
+    font-size: 13px;
+    color: var(--text-muted);
+    max-width: 300px;
+    line-height: 1.5;
+  }
+
+  /* TIPS section */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    margin-top: 28px;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.2s ease forwards;
+  }
+
+  .tip-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+
+  .tip-card .tip-icon { font-size: 24px; margin-bottom: 8px; }
+  .tip-card .tip-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .tip-card .tip-body { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .header-stats { grid-template-columns: repeat(2, 1fr); }
+    .totals-bar { grid-template-columns: repeat(2, 1fr); }
+    .timeline::before { left: 44px; }
+    .meal-block { grid-template-columns: 90px 1fr; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <h1>DAILY<span>PLAN</span></h1>
+        <div style="font-size:14px; color: var(--text-muted); margin-top: 6px;">Abhishek · 25 yrs · 70–75 kg · 5'9"–5'11"</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge badge-green">🥗 Dairy-Free · No Pork</div>
+        <div class="badge badge-orange">🏋️ Body Recomposition</div>
+        <div class="badge badge-blue">📅 Sedentary → Active</div>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="stat-card">
+        <div class="stat-value" style="color: var(--red);">2100</div>
+        <div class="stat-label">Calories / day</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color: var(--green);">151g</div>
+        <div class="stat-label">Protein</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color: var(--blue);">223g</div>
+        <div class="stat-label">Carbs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color: var(--yellow);">49g</div>
+        <div class="stat-label">Fats</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('diet')">🥗 Diet Plan</button>
+    <button class="tab" onclick="switchTab('workout')">🏋️ Workout Plan</button>
+    <button class="tab" onclick="switchTab('tips')">💡 Tips & Notes</button>
+  </div>
+
+  <!-- DIET TAB -->
+  <div class="tab-content active" id="tab-diet">
+    <div class="timeline">
+
+      <div class="meal-block">
+        <div class="meal-time">
+          <div class="time-dot"></div>
+          <div class="time-label">8:00<br>AM</div>
+        </div>
+        <div class="meal-card">
+          <div class="meal-header">
+            <div class="meal-name">
+              <div class="meal-icon">🍳</div>
+              Breakfast
+            </div>
+            <div class="meal-macros">
+              <span class="macro-pill macro-p">P: 34g</span>
+              <span class="macro-pill macro-c">C: 40g</span>
+              <span class="macro-pill macro-f">F: 18g</span>
+              <span class="macro-pill macro-cal">462 kcal</span>
+            </div>
+          </div>
+          <div class="meal-foods">
+            <div class="food-chip">🥚 4 Whole Eggs <span>boiled/scrambled</span></div>
+            <div class="food-chip">🥚 2 Egg Whites</div>
+            <div class="food-chip">🫓 2 Whole Wheat Rotis</div>
+            <div class="food-chip">🫒 1 tsp Olive Oil</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="meal-block">
+        <div class="meal-time">
+          <div class="time-dot" style="background: var(--blue); box-shadow: 0 0 12px rgba(88,166,255,0.5);"></div>
+          <div class="time-label">11:00<br>AM</div>
+        </div>
+        <div class="meal-card">
+          <div class="meal-header">
+            <div class="meal-name">
+              <div class="meal-icon" style="background: var(--blue-dim);">🍌</div>
+              Mid-Morning Snack
+            </div>
+            <div class="meal-macros">
+              <span class="macro-pill macro-p">P: 4g</span>
+              <span class="macro-pill macro-c">C: 42g</span>
+              <span class="macro-pill macro-f">F: 6g</span>
+              <span class="macro-pill macro-cal">238 kcal</span>
+            </div>
+          </div>
+          <div class="meal-foods">
+            <div class="food-chip">🍌 1 Banana</div>
+            <div class="food-chip">🍎 1 Apple</div>
+            <div class="food-chip">🌰 10 Almonds</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="meal-block">
+        <div class="meal-time">
+          <div class="time-dot" style="background: var(--orange); box-shadow: 0 0 12px rgba(255,140,66,0.5);"></div>
+          <div class="time-label">1:30<br>PM</div>
+        </div>
+        <div class="meal-card">
+          <div class="meal-header">
+            <div class="meal-name">
+              <div class="meal-icon" style="background: var(--orange-dim);">🐟</div>
+              Lunch
+            </div>
+            <div class="meal-macros">
+              <span class="macro-pill macro-p">P: 32g</span>
+              <span class="macro-pill macro-c">C: 58g</span>
+              <span class="macro-pill macro-f">F: 9g</span>
+              <span class="macro-pill macro-cal">445 kcal</span>
+            </div>
+          </div>
+          <div class="meal-foods">
+            <div class="food-chip">🐟 150g Rohu Fish <span>grilled/curry</span></div>
+            <div class="food-chip">🍚 1.5 cups Brown Rice</div>
+            <div class="food-chip">🥗 Mixed Salad</div>
+            <div class="food-chip">🫒 1 tsp Mustard Oil</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="meal-block">
+        <div class="meal-time">
+          <div class="time-dot" style="background: var(--yellow); box-shadow: 0 0 12px rgba(240,192,64,0.5);"></div>
+          <div class="time-label">5:00<br>PM</div>
+        </div>
+        <div class="meal-card">
+          <div class="meal-header">
+            <div class="meal-name">
+              <div class="meal-icon" style="background: rgba(240,192,64,0.15);">🥔</div>
+              Evening Snack
+            </div>
+            <div class="meal-macros">
+              <span class="macro-pill macro-p">P: 13g</span>
+              <span class="macro-pill macro-c">C: 27g</span>
+              <span class="macro-pill macro-f">F: 5g</span>
+              <span class="macro-pill macro-cal">205 kcal</span>
+            </div>
+          </div>
+          <div class="meal-foods">
+            <div class="food-chip">🥚 2 Boiled Eggs</div>
+            <div class="food-chip">🥔 1 Medium Sweet Potato <span>boiled</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="meal-block">
+        <div class="meal-time">
+          <div class="time-dot" style="background: var(--red); box-shadow: 0 0 12px rgba(255,107,107,0.5);"></div>
+          <div class="time-label">8:00<br>PM</div>
+        </div>
+        <div class="meal-card">
+          <div class="meal-header">
+            <div class="meal-name">
+              <div class="meal-icon" style="background: rgba(255,107,107,0.15);">🍗</div>
+              Dinner
+            </div>
+            <div class="meal-macros">
+              <span class="macro-pill macro-p">P: 48g</span>
+              <span class="macro-pill macro-c">C: 52g</span>
+              <span class="macro-pill macro-f">F: 8g</span>
+              <span class="macro-pill macro-cal">480 kcal</span>
+            </div>
+          </div>
+          <div class="meal-foods">
+            <div class="food-chip">🍗 150g Chicken Breast <span>grilled/tandoori</span></div>
+            <div class="food-chip">🫘 1 cup Dal</div>
+            <div class="food-chip">🫓 2 Whole Wheat Rotis</div>
+            <div class="food-chip">🥦 Mixed Veggies</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="meal-block">
+        <div class="meal-time">
+          <div class="time-dot" style="background: var(--text-dim); box-shadow: none;"></div>
+          <div class="time-label">10:00<br>PM</div>
+        </div>
+        <div class="meal-card" style="border-style: dashed;">
+          <div class="meal-header">
+            <div class="meal-name">
+              <div class="meal-icon" style="background: rgba(125,133,144,0.15);">🌙</div>
+              Optional Night Snack
+            </div>
+            <div class="meal-macros">
+              <span class="macro-pill macro-p">P: 20g</span>
+              <span class="macro-pill macro-c">C: 4g</span>
+              <span class="macro-pill macro-f">F: 3g</span>
+              <span class="macro-pill macro-cal">123 kcal</span>
+            </div>
+          </div>
+          <div class="meal-foods">
+            <div class="food-chip">🐟 100g Rohu Fillet <span>grilled</span></div>
+            <div class="food-chip">🥒 Cucumber Salad</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TOTALS -->
+    <div class="totals-bar">
+      <div class="total-item">
+        <div class="total-value" style="color: var(--red);">~1,953</div>
+        <div class="total-label">Calories</div>
+      </div>
+      <div class="total-item">
+        <div class="total-value" style="color: var(--green);">~151g</div>
+        <div class="total-label">Protein</div>
+      </div>
+      <div class="total-item">
+        <div class="total-value" style="color: var(--blue);">~223g</div>
+        <div class="total-label">Carbohydrates</div>
+      </div>
+      <div class="total-item">
+        <div class="total-value" style="color: var(--yellow);">~49g</div>
+        <div class="total-label">Fats</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORKOUT TAB -->
+  <div class="tab-content" id="tab-workout">
+
+    <div class="workout-header">
+      <div>
+        <div class="workout-title">WEEKLY WORKOUT PLAN</div>
+        <div style="font-size:13px; color: var(--text-muted);">Click exercises to mark as done · 4 training days, 3 rest days</div>
+      </div>
+    </div>
+
+    <div class="day-selector">
+      <button class="day-btn active" onclick="showDay('mon')">Mon 💪</button>
+      <button class="day-btn" onclick="showDay('tue')">Tue 💪</button>
+      <button class="day-btn rest" onclick="showDay('wed')">Wed 😴</button>
+      <button class="day-btn" onclick="showDay('thu')">Thu 💪</button>
+      <button class="day-btn" onclick="showDay('fri')">Fri 💪</button>
+      <button class="day-btn rest" onclick="showDay('sat')">Sat 😴</button>
+      <button class="day-btn rest" onclick="showDay('sun')">Sun 😴</button>
+    </div>
+
+    <!-- MONDAY: Chest + Triceps -->
+    <div class="workout-plan active" id="day-mon">
+      <div style="margin-bottom:20px;">
+        <div class="workout-title" style="font-size:22px;">Monday — Chest & Triceps</div>
+        <div style="font-size:13px; color: var(--text-muted); margin-top:4px;">Push day · Est. 45–55 mins</div>
+      </div>
+      <div class="phase-label">Warm Up — 5 mins</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">W</div>
+          <div class="ex-info">
+            <div class="ex-name">Jumping Jacks</div>
+            <div class="ex-detail">2 × 30 reps</div>
+          </div>
+          <div class="ex-muscle">Full Body</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">W</div>
+          <div class="ex-info">
+            <div class="ex-name">Arm Circles + Shoulder Rolls</div>
+            <div class="ex-detail">2 mins</div>
+          </div>
+          <div class="ex-muscle">Shoulders</div>
+          <div class="check-icon">✓</div>
+        </div>
+      </div>
+      <div class="phase-label">Main Workout</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">01</div>
+          <div class="ex-info">
+            <div class="ex-name">Flat Barbell / Dumbbell Press</div>
+            <div class="ex-detail">4 × 8–10 reps · 2 min rest</div>
+          </div>
+          <div class="ex-muscle">Chest</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">02</div>
+          <div class="ex-info">
+            <div class="ex-name">Incline Dumbbell Press</div>
+            <div class="ex-detail">3 × 10–12 reps · 90s rest</div>
+          </div>
+          <div class="ex-muscle">Upper Chest</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">03</div>
+          <div class="ex-info">
+            <div class="ex-name">Dumbbell Flyes</div>
+            <div class="ex-detail">3 × 12–15 reps · 60s rest</div>
+          </div>
+          <div class="ex-muscle">Chest</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">04</div>
+          <div class="ex-info">
+            <div class="ex-name">Push-Ups (Weighted if possible)</div>
+            <div class="ex-detail">3 × 15–20 reps · 60s rest</div>
+          </div>
+          <div class="ex-muscle">Chest</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">05</div>
+          <div class="ex-info">
+            <div class="ex-name">Tricep Rope Pushdown</div>
+            <div class="ex-detail">3 × 12–15 reps · 60s rest</div>
+          </div>
+          <div class="ex-muscle">Triceps</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">06</div>
+          <div class="ex-info">
+            <div class="ex-name">Overhead Tricep Extension</div>
+            <div class="ex-detail">3 × 12 reps · 60s rest</div>
+          </div>
+          <div class="ex-muscle">Triceps</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">07</div>
+          <div class="ex-info">
+            <div class="ex-name">Bench Dips</div>
+            <div class="ex-detail">3 × 12–15 reps · 60s rest</div>
+          </div>
+          <div class="ex-muscle">Triceps</div>
+          <div class="check-icon">✓</div>
+        </div>
+      </div>
+      <div class="phase-label">Cardio Finisher — 15 mins</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">C</div>
+          <div class="ex-info">
+            <div class="ex-name">Brisk Walk / Treadmill</div>
+            <div class="ex-detail">15 mins · moderate pace</div>
+          </div>
+          <div class="ex-muscle">Cardio</div>
+          <div class="check-icon">✓</div>
+        </div>
+      </div>
+      <div class="workout-summary" id="summary-mon">
+        <div class="progress-bar-wrap">
+          <div class="progress-label"><span>Exercises Completed</span><span id="count-mon">0 / 9</span></div>
+          <div class="progress-bar"><div class="progress-fill" id="fill-mon" style="width: 0%"></div></div>
+        </div>
+        <div class="workout-tip">💡 Focus on the mind-muscle connection — squeeze the chest at the top of each rep.</div>
+      </div>
+    </div>
+
+    <!-- TUESDAY: Back + Biceps -->
+    <div class="workout-plan" id="day-tue">
+      <div style="margin-bottom:20px;">
+        <div class="workout-title" style="font-size:22px;">Tuesday — Back & Biceps</div>
+        <div style="font-size:13px; color: var(--text-muted); margin-top:4px;">Pull day · Est. 50–60 mins</div>
+      </div>
+      <div class="phase-label">Warm Up</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">W</div>
+          <div class="ex-info">
+            <div class="ex-name">Band Pull-Aparts / Cat-Cow</div>
+            <div class="ex-detail">2 × 15 reps · spine mobility</div>
+          </div>
+          <div class="ex-muscle">Back</div>
+          <div class="check-icon">✓</div>
+        </div>
+      </div>
+      <div class="phase-label">Main Workout</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">01</div>
+          <div class="ex-info">
+            <div class="ex-name">Deadlift (Romanian or Conventional)</div>
+            <div class="ex-detail">4 × 6–8 reps · 2–3 min rest</div>
+          </div>
+          <div class="ex-muscle">Back / Glutes</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">02</div>
+          <div class="ex-info">
+            <div class="ex-name">Lat Pulldown (Wide Grip)</div>
+            <div class="ex-detail">4 × 10–12 reps · 90s rest</div>
+          </div>
+          <div class="ex-muscle">Lats</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">03</div>
+          <div class="ex-info">
+            <div class="ex-name">Seated Cable Row</div>
+            <div class="ex-detail">3 × 12 reps · 90s rest</div>
+          </div>
+          <div class="ex-muscle">Mid-Back</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">04</div>
+          <div class="ex-info">
+            <div class="ex-name">Single-Arm Dumbbell Row</div>
+            <div class="ex-detail">3 × 12 reps each side</div>
+          </div>
+          <div class="ex-muscle">Back</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">05</div>
+          <div class="ex-info">
+            <div class="ex-name">Barbell Bicep Curl</div>
+            <div class="ex-detail">3 × 10–12 reps · 60s rest</div>
+          </div>
+          <div class="ex-muscle">Biceps</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">06</div>
+          <div class="ex-info">
+            <div class="ex-name">Hammer Curl</div>
+            <div class="ex-detail">3 × 12 reps · 60s rest</div>
+          </div>
+          <div class="ex-muscle">Biceps / Forearms</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">07</div>
+          <div class="ex-info">
+            <div class="ex-name">Face Pulls</div>
+            <div class="ex-detail">3 × 15 reps · 60s rest</div>
+          </div>
+          <div class="ex-muscle">Rear Delt</div>
+          <div class="check-icon">✓</div>
+        </div>
+      </div>
+      <div class="phase-label">Cardio Finisher</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">C</div>
+          <div class="ex-info">
+            <div class="ex-name">Cycling / Rowing Machine</div>
+            <div class="ex-detail">15 mins · low-moderate intensity</div>
+          </div>
+          <div class="ex-muscle">Cardio</div>
+          <div class="check-icon">✓</div>
+        </div>
+      </div>
+      <div class="workout-summary">
+        <div class="progress-bar-wrap">
+          <div class="progress-label"><span>Exercises Completed</span><span id="count-tue">0 / 8</span></div>
+          <div class="progress-bar"><div class="progress-fill" id="fill-tue" style="width: 0%"></div></div>
+        </div>
+        <div class="workout-tip">💡 Keep your back straight during deadlifts — prioritize form over weight, especially starting out.</div>
+      </div>
+    </div>
+
+    <!-- WEDNESDAY: Rest -->
+    <div class="workout-plan" id="day-wed">
+      <div class="rest-day-card">
+        <div class="rest-icon">😴</div>
+        <h3>ACTIVE RECOVERY DAY</h3>
+        <p>Rest is where muscle is actually built. Take today to recover. You can go for a 20–30 min light walk, do some stretching, or yoga. Avoid heavy lifting. Hydrate well and sleep 7–8 hours.</p>
+      </div>
+    </div>
+
+    <!-- THURSDAY: Shoulders + Abs -->
+    <div class="workout-plan" id="day-thu">
+      <div style="margin-bottom:20px;">
+        <div class="workout-title" style="font-size:22px;">Thursday — Shoulders & Abs</div>
+        <div style="font-size:13px; color: var(--text-muted); margin-top:4px;">Overhead & core · Est. 45–50 mins</div>
+      </div>
+      <div class="phase-label">Main Workout</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">01</div>
+          <div class="ex-info">
+            <div class="ex-name">Overhead Barbell Press (OHP)</div>
+            <div class="ex-detail">4 × 8–10 reps · 2 min rest</div>
+          </div>
+          <div class="ex-muscle">Front Delt</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">02</div>
+          <div class="ex-info">
+            <div class="ex-name">Dumbbell Lateral Raises</div>
+            <div class="ex-detail">4 × 15 reps · 60s rest</div>
+          </div>
+          <div class="ex-muscle">Lateral Delt</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">03</div>
+          <div class="ex-info">
+            <div class="ex-name">Dumbbell Front Raises</div>
+            <div class="ex-detail">3 × 12 reps · 60s rest</div>
+          </div>
+          <div class="ex-muscle">Front Delt</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">04</div>
+          <div class="ex-info">
+            <div class="ex-name">Arnold Press</div>
+            <div class="ex-detail">3 × 10–12 reps · 90s rest</div>
+          </div>
+          <div class="ex-muscle">All Delts</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">05</div>
+          <div class="ex-info">
+            <div class="ex-name">Plank</div>
+            <div class="ex-detail">3 × 45–60 sec holds</div>
+          </div>
+          <div class="ex-muscle">Core</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">06</div>
+          <div class="ex-info">
+            <div class="ex-name">Hanging Leg Raises</div>
+            <div class="ex-detail">3 × 12–15 reps</div>
+          </div>
+          <div class="ex-muscle">Lower Abs</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">07</div>
+          <div class="ex-info">
+            <div class="ex-name">Crunches / Bicycle Crunches</div>
+            <div class="ex-detail">3 × 20 reps</div>
+          </div>
+          <div class="ex-muscle">Abs</div>
+          <div class="check-icon">✓</div>
+        </div>
+      </div>
+      <div class="phase-label">Cardio Finisher</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">C</div>
+          <div class="ex-info">
+            <div class="ex-name">Brisk Walk / Jump Rope</div>
+            <div class="ex-detail">15 mins</div>
+          </div>
+          <div class="ex-muscle">Cardio</div>
+          <div class="check-icon">✓</div>
+        </div>
+      </div>
+      <div class="workout-summary">
+        <div class="progress-bar-wrap">
+          <div class="progress-label"><span>Exercises Completed</span><span id="count-thu">0 / 8</span></div>
+          <div class="progress-bar"><div class="progress-fill" id="fill-thu" style="width: 0%"></div></div>
+        </div>
+        <div class="workout-tip">💡 Lateral raises are best done slow and controlled — avoid swinging. Less weight, better form.</div>
+      </div>
+    </div>
+
+    <!-- FRIDAY: Legs -->
+    <div class="workout-plan" id="day-fri">
+      <div style="margin-bottom:20px;">
+        <div class="workout-title" style="font-size:22px;">Friday — Legs & Glutes</div>
+        <div style="font-size:13px; color: var(--text-muted); margin-top:4px;">Lower body · Est. 55–65 mins</div>
+      </div>
+      <div class="phase-label">Warm Up</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">W</div>
+          <div class="ex-info">
+            <div class="ex-name">Hip Circles + Leg Swings</div>
+            <div class="ex-detail">2 mins mobility work</div>
+          </div>
+          <div class="ex-muscle">Hips</div>
+          <div class="check-icon">✓</div>
+        </div>
+      </div>
+      <div class="phase-label">Main Workout</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">01</div>
+          <div class="ex-info">
+            <div class="ex-name">Barbell Back Squat</div>
+            <div class="ex-detail">4 × 8–10 reps · 2–3 min rest</div>
+          </div>
+          <div class="ex-muscle">Quads / Glutes</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">02</div>
+          <div class="ex-info">
+            <div class="ex-name">Leg Press</div>
+            <div class="ex-detail">3 × 12–15 reps · 90s rest</div>
+          </div>
+          <div class="ex-muscle">Quads</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">03</div>
+          <div class="ex-info">
+            <div class="ex-name">Romanian Deadlift</div>
+            <div class="ex-detail">3 × 10 reps · 90s rest</div>
+          </div>
+          <div class="ex-muscle">Hamstrings</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">04</div>
+          <div class="ex-info">
+            <div class="ex-name">Walking Lunges</div>
+            <div class="ex-detail">3 × 12 reps each leg</div>
+          </div>
+          <div class="ex-muscle">Quads / Glutes</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">05</div>
+          <div class="ex-info">
+            <div class="ex-name">Leg Curl Machine</div>
+            <div class="ex-detail">3 × 12–15 reps · 60s rest</div>
+          </div>
+          <div class="ex-muscle">Hamstrings</div>
+          <div class="check-icon">✓</div>
+        </div>
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">06</div>
+          <div class="ex-info">
+            <div class="ex-name">Calf Raises (Standing)</div>
+            <div class="ex-detail">4 × 20 reps · 45s rest</div>
+          </div>
+          <div class="ex-muscle">Calves</div>
+          <div class="check-icon">✓</div>
+        </div>
+      </div>
+      <div class="phase-label">Cardio Finisher</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="toggleEx(this)">
+          <div class="ex-num">C</div>
+          <div class="ex-info">
+            <div class="ex-name">Stationary Bike</div>
+            <div class="ex-detail">10 mins · easy pace for recovery</div>
+          </div>
+          <div class="ex-muscle">Cardio</div>
+          <div class="check-icon">✓</div>
+        </div>
+      </div>
+      <div class="workout-summary">
+        <div class="progress-bar-wrap">
+          <div class="progress-label"><span>Exercises Completed</span><span id="count-fri">0 / 8</span></div>
+          <div class="progress-bar"><div class="progress-fill" id="fill-fri" style="width: 0%"></div></div>
+        </div>
+        <div class="workout-tip">💡 Legs are your biggest muscle group. Train them hard — this is where fat burn accelerates most.</div>
+      </div>
+    </div>
+
+    <!-- SAT: Rest -->
+    <div class="workout-plan" id="day-sat">
+      <div class="rest-day-card">
+        <div class="rest-icon">🌅</div>
+        <h3>REST & RECHARGE</h3>
+        <p>Weekend rest is critical for recovery. Go for a 30-min outdoor walk, stretch for 10 mins, and enjoy your meals. Your muscles grow when you rest, not when you train.</p>
+      </div>
+    </div>
+
+    <!-- SUN: Rest -->
+    <div class="workout-plan" id="day-sun">
+      <div class="rest-day-card">
+        <div class="rest-icon">☀️</div>
+        <h3>FULL REST DAY</h3>
+        <p>Enjoy your Sunday. Stay hydrated, eat your planned meals, and mentally prep for the week ahead. Consistency over weeks is what transforms your physique — keep going!</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TIPS TAB -->
+  <div class="tab-content" id="tab-tips">
+    <div style="font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--green); margin-bottom: 8px; opacity:0; animation: fadeUp 0.4s ease forwards;">ESSENTIAL TIPS</div>
+    <div style="font-size:14px; color: var(--text-muted); opacity:0; animation: fadeUp 0.4s 0.05s ease forwards;">For fat loss, muscle gain, and staying consistent</div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">💧</div>
+        <div class="tip-title">Hydration</div>
+        <div class="tip-body">Drink 3–4 litres of water daily. Carry a 1L bottle and refill it 3–4 times. Dehydration kills performance and hunger cues.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">😴</div>
+        <div class="tip-title">Sleep</div>
+        <div class="tip-body">7–8 hours of sleep every night. Growth hormone peaks during deep sleep — this is when your muscles actually grow.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📈</div>
+        <div class="tip-title">Progressive Overload</div>
+        <div class="tip-body">Add 2.5kg or 1 extra rep every 1–2 weeks. Without progressive overload, your muscles have no reason to grow.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">⏱️</div>
+        <div class="tip-title">Meal Timing</div>
+        <div class="tip-body">Try to eat within 60 mins of waking up. Space meals every 3–4 hours. Don't skip the post-workout meal window.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🚶</div>
+        <div class="tip-title">Daily Steps</div>
+        <div class="tip-body">Aim for 8,000–10,000 steps/day. Even on rest days, a 30-min brisk walk boosts calorie burn and mood.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🍷</div>
+        <div class="tip-title">Alcohol</div>
+        <div class="tip-body">Limit alcohol — it blocks protein synthesis by up to 30%, adds empty calories, and disrupts deep sleep.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🎯</div>
+        <div class="tip-title">Consistency</div>
+        <div class="tip-body">Results come in months, not weeks. Missing 1 meal or workout won't hurt you — quitting will. Stay the course.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📸</div>
+        <div class="tip-title">Track Progress</div>
+        <div class="tip-body">Take photos every 2 weeks in same lighting + pose. Scale weight fluctuates daily — photos don't lie.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🧂</div>
+        <div class="tip-title">Cooking for Fat Loss</div>
+        <div class="tip-body">Grill, boil, or air-fry your proteins. Avoid deep frying. Use mustard/olive oil in small amounts — fats are calorie-dense.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function showDay(day) {
+    document.querySelectorAll('.workout-plan').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('day-' + day).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function toggleEx(card) {
+    card.classList.toggle('done');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const days = ['mon', 'tue', 'thu', 'fri'];
+    days.forEach(d => {
+      const plan = document.getElementById('day-' + d);
+      if (!plan) return;
+      const all = plan.querySelectorAll('.exercise-card').length;
+      const done = plan.querySelectorAll('.exercise-card.done').length;
+      const el = document.getElementById('count-' + d);
+      const fill = document.getElementById('fill-' + d);
+      if (el) el.textContent = done + ' / ' + all;
+      if (fill) fill.style.width = (done / all * 100) + '%';
+    });
+  }
+</script>
+</body>
+</html>
