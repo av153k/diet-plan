@@ -1,4 +1,4 @@
-const CACHE_NAME = 'daily-plan-v1';
+const CACHE_NAME = 'daily-plan-v2';
 const ASSETS = [
   '/',
   '/index.html',
@@ -50,7 +50,21 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Cache-first for everything else (the app itself)
+  // Network-first for HTML pages — always fetch fresh, fall back to cache
+  if (url.pathname.endsWith('.html') || url.pathname === '/' || url.pathname === '') {
+    event.respondWith(
+      fetch(event.request)
+        .then(res => {
+          const clone = res.clone();
+          caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
+          return res;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Cache-first for everything else (assets, icons, manifest)
   event.respondWith(
     caches.match(event.request).then(cached => {
       if (cached) return cached;
