@@ -2,8 +2,29 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Abhishek's Daily Plan</title>
+
+<!-- PWA Manifest & Theme -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#39D98A">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Daily Plan">
+<meta name="application-name" content="Daily Plan">
+<meta name="description" content="Personalised diet, workout, recipes & grocery list">
+
+<!-- Apple Touch Icons -->
+<link rel="apple-touch-icon" href="icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+
+<!-- Apple Splash Screens (optional but nice) -->
+<meta name="apple-touch-startup-image" href="icons/icon-512.png">
+
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -14,7 +35,39 @@
     --text: #E6EDF3; --text-muted: #7D8590; --text-dim: #4A5568;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; overflow-x:hidden; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; overflow-x:hidden;
+    /* Safe area for notched phones */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* PWA install banner */
+  #install-banner {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    background: var(--surface);
+    border: 1px solid var(--green);
+    border-radius: 16px;
+    padding: 14px 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: calc(100vw - 40px);
+    animation: slideUp 0.4s ease;
+  }
+  #install-banner.hidden { display: none !important; }
+  @keyframes slideUp { from{opacity:0;transform:translateX(-50%) translateY(20px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+  .install-icon { font-size: 28px; flex-shrink: 0; }
+  .install-text { flex: 1; }
+  .install-text strong { display: block; font-size: 14px; color: var(--text); margin-bottom: 2px; }
+  .install-text span { font-size: 12px; color: var(--text-muted); }
+  .install-btn { background: var(--green); color: #0D1117; border: none; border-radius: 8px; padding: 8px 16px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+  .install-close { background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; padding: 0 4px; }
   body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(57,217,138,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(57,217,138,.03) 1px,transparent 1px); background-size:40px 40px; pointer-events:none; z-index:0; }
   .container { max-width:1100px; margin:0 auto; padding:40px 24px 80px; position:relative; z-index:1; }
 
@@ -934,12 +987,26 @@
 </div>
 
 </div>
+<!-- PWA Install Banner -->
+<div id="install-banner" class="hidden">
+  <span class="install-icon">📲</span>
+  <div class="install-text">
+    <strong>Add to Home Screen</strong>
+    <span>Use offline like a real app</span>
+  </div>
+  <button class="install-btn" onclick="installPWA()">Install</button>
+  <button class="install-close" onclick="dismissInstall()">✕</button>
+</div>
+
 <script>
+  // ── TAB & UI FUNCTIONS ──
   function switchTab(tab, btn) {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.getElementById('tab-'+tab).classList.add('active');
     btn.classList.add('active');
+    // Handle shortcut param
+    try { history.replaceState(null,'','?tab='+tab); } catch(e){}
   }
 
   function switchMode(mode, btn) {
@@ -947,7 +1014,6 @@
     document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('mode-'+mode).classList.add('active');
     btn.classList.add('active');
-    // Show first day of selected mode
     const firstDay = mode === 'gym' ? 'gym-mon' : 'home-mon';
     document.querySelectorAll('#mode-'+mode+' .workout-plan').forEach(p => p.classList.remove('active'));
     document.getElementById(firstDay).classList.add('active');
@@ -955,16 +1021,16 @@
   }
 
   function showDay(mode, day, btn) {
-    const prefix = mode + '-';
     document.querySelectorAll('#mode-'+mode+' .workout-plan').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('#mode-'+mode+' .day-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(prefix+day).classList.add('active');
+    document.getElementById(mode+'-'+day).classList.add('active');
     btn.classList.add('active');
   }
 
   function toggleEx(card, group) {
     card.classList.toggle('done');
     updateProgress(group);
+    saveWorkoutState();
   }
 
   function updateProgress(group) {
@@ -980,13 +1046,13 @@
 
   function toggleRecipe(btn) {
     btn.classList.toggle('open');
-    const body = btn.nextElementSibling;
-    body.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
   }
 
   function toggleGrocery(item) {
     item.classList.toggle('checked');
     updateGroceryBadge();
+    saveGroceryState();
   }
 
   function updateGroceryBadge() {
@@ -998,10 +1064,141 @@
   function clearGrocery() {
     document.querySelectorAll('.grocery-item').forEach(i => i.classList.remove('checked'));
     updateGroceryBadge();
+    saveGroceryState();
   }
 
-  // Init grocery count
-  updateGroceryBadge();
+  // ── PERSISTENCE (localStorage) ──
+  function saveGroceryState() {
+    try {
+      const items = document.querySelectorAll('.grocery-item');
+      const state = Array.from(items).map(i => i.classList.contains('checked'));
+      localStorage.setItem('grocery_state', JSON.stringify(state));
+    } catch(e) {}
+  }
+
+  function loadGroceryState() {
+    try {
+      const state = JSON.parse(localStorage.getItem('grocery_state') || '[]');
+      const items = document.querySelectorAll('.grocery-item');
+      items.forEach((item, i) => {
+        if (state[i]) item.classList.add('checked');
+      });
+    } catch(e) {}
+    updateGroceryBadge();
+  }
+
+  function saveWorkoutState() {
+    try {
+      const cards = document.querySelectorAll('.exercise-card');
+      const state = {};
+      cards.forEach((card, i) => {
+        const group = card.closest('.workout-plan')?.id;
+        if (group) {
+          if (!state[group]) state[group] = {};
+          state[group][i] = card.classList.contains('done');
+        }
+      });
+      localStorage.setItem('workout_state', JSON.stringify(state));
+      localStorage.setItem('workout_date', new Date().toDateString());
+    } catch(e) {}
+  }
+
+  function loadWorkoutState() {
+    try {
+      // Reset state if it's a new day
+      const savedDate = localStorage.getItem('workout_date');
+      if (savedDate !== new Date().toDateString()) {
+        localStorage.removeItem('workout_state');
+        return;
+      }
+      const state = JSON.parse(localStorage.getItem('workout_state') || '{}');
+      Object.keys(state).forEach(group => {
+        const plan = document.getElementById(group);
+        if (!plan) return;
+        const cards = plan.querySelectorAll('.exercise-card');
+        cards.forEach((card, i) => {
+          if (state[group][i]) card.classList.add('done');
+        });
+        updateProgress(group);
+      });
+    } catch(e) {}
+  }
+
+  // ── URL TAB SHORTCUT ──
+  function openTabFromURL() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get('tab');
+      if (tab) {
+        const btn = document.querySelector(`.tab[onclick*="'${tab}'"]`);
+        if (btn) switchTab(tab, btn);
+      }
+    } catch(e) {}
+  }
+
+  // ── PWA SERVICE WORKER ──
+  let deferredPrompt = null;
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('SW registered:', reg.scope))
+        .catch(err => console.log('SW failed:', err));
+    });
+  }
+
+  // Capture install prompt (Android/Chrome)
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    // Show banner after 3 seconds
+    setTimeout(() => {
+      if (!localStorage.getItem('pwa_dismissed')) {
+        document.getElementById('install-banner').classList.remove('hidden');
+      }
+    }, 3000);
+  });
+
+  function installPWA() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(result => {
+        deferredPrompt = null;
+        document.getElementById('install-banner').classList.add('hidden');
+      });
+    }
+  }
+
+  function dismissInstall() {
+    document.getElementById('install-banner').classList.add('hidden');
+    try { localStorage.setItem('pwa_dismissed', '1'); } catch(e) {}
+  }
+
+  // Detect if already installed
+  window.addEventListener('appinstalled', () => {
+    document.getElementById('install-banner').classList.add('hidden');
+  });
+
+  // ── INIT ──
+  document.addEventListener('DOMContentLoaded', () => {
+    loadGroceryState();
+    loadWorkoutState();
+    openTabFromURL();
+
+    // Auto-select today's workout day
+    const days = ['sun','mon','tue','wed','thu','fri','sat'];
+    const today = days[new Date().getDay()];
+    ['gym','home'].forEach(mode => {
+      const dayBtn = document.querySelector(`#mode-${mode} .day-selector .day-btn[onclick*="'${today}'"]`);
+      if (dayBtn) {
+        document.querySelectorAll(`#mode-${mode} .day-btn`).forEach(b => b.classList.remove('active'));
+        document.querySelectorAll(`#mode-${mode} .workout-plan`).forEach(p => p.classList.remove('active'));
+        dayBtn.classList.add('active');
+        const plan = document.getElementById(`${mode}-${today}`);
+        if (plan) plan.classList.add('active');
+      }
+    });
+  });
 </script>
 </body>
 </html>
